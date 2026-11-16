@@ -1,0 +1,126 @@
+const { pool, handleMySQLError } = require('../config/database');
+
+/**
+ * Controller de Clientes (CRUD Completo em MySQL)
+ */
+const clienteController = {
+  // READ: Listar todos os clientes
+  async listar(req, res) {
+    try {
+      const [rows] = await pool.query(
+        'SELECT id, nome, cpf, telefone, email, endereco, data_cadastro, data_atualizacao FROM clientes ORDER BY nome ASC'
+      );
+      return res.json({ success: true, data: rows });
+    } catch (error) {
+      return handleMySQLError(error, res);
+    }
+  },
+
+  // READ: Buscar cliente por ID
+  async buscarPorId(req, res) {
+    try {
+      const { id } = req.params;
+      const [rows] = await pool.query(
+        'SELECT id, nome, cpf, telefone, email, endereco, data_cadastro, data_atualizacao FROM clientes WHERE id = ?',
+        [id]
+      );
+
+      if (rows.length === 0) {
+        return res.status(404).json({ success: false, message: 'Cliente não encontrado.' });
+      }
+
+      return res.json({ success: true, data: rows[0] });
+    } catch (error) {
+      return handleMySQLError(error, res);
+    }
+  },
+
+  // CREATE: Cadastrar novo cliente
+  async criar(req, res) {
+    try {
+      const { nome, cpf, telefone, email, endereco } = req.body;
+
+      if (!nome || !cpf || !telefone || !email) {
+        return res.status(400).json({
+          success: false,
+          message: 'Campos obrigatórios ausentes: nome, cpf, telefone e email devem ser informados.'
+        });
+      }
+
+      const [result] = await pool.query(
+        'INSERT INTO clientes (nome, cpf, telefone, email, endereco) VALUES (?, ?, ?, ?, ?)',
+        [nome.trim(), cpf.trim(), telefone.trim(), email.trim(), endereco ? endereco.trim() : null]
+      );
+
+      return res.status(201).json({
+        success: true,
+        message: 'Cliente cadastrado com sucesso!',
+        data: {
+          id: result.insertId,
+          nome,
+          cpf,
+          telefone,
+          email,
+          endereco
+        }
+      });
+    } catch (error) {
+      return handleMySQLError(error, res);
+    }
+  },
+
+  // UPDATE: Atualizar dados de um cliente
+  async atualizar(req, res) {
+    try {
+      const { id } = req.params;
+      const { nome, cpf, telefone, email, endereco } = req.body;
+
+      if (!nome || !cpf || !telefone || !email) {
+        return res.status(400).json({
+          success: false,
+          message: 'Campos obrigatórios ausentes: nome, cpf, telefone e email devem ser informados.'
+        });
+      }
+
+      const [check] = await pool.query('SELECT id FROM clientes WHERE id = ?', [id]);
+      if (check.length === 0) {
+        return res.status(404).json({ success: false, message: 'Cliente não encontrado para atualização.' });
+      }
+
+      await pool.query(
+        'UPDATE clientes SET nome = ?, cpf = ?, telefone = ?, email = ?, endereco = ? WHERE id = ?',
+        [nome.trim(), cpf.trim(), telefone.trim(), email.trim(), endereco ? endereco.trim() : null, id]
+      );
+
+      return res.json({
+        success: true,
+        message: 'Cliente atualizado com sucesso!'
+      });
+    } catch (error) {
+      return handleMySQLError(error, res);
+    }
+  },
+
+  // DELETE: Excluir cliente (restringido se houver veículos vinculados)
+  async excluir(req, res) {
+    try {
+      const { id } = req.params;
+
+      const [check] = await pool.query('SELECT id FROM clientes WHERE id = ?', [id]);
+      if (check.length === 0) {
+        return res.status(404).json({ success: false, message: 'Cliente não encontrado para exclusão.' });
+      }
+
+      await pool.query('DELETE FROM clientes WHERE id = ?', [id]);
+
+      return res.json({
+        success: true,
+        message: 'Cliente excluído com sucesso!'
+      });
+    } catch (error) {
+      return handleMySQLError(error, res);
+    }
+  }
+};
+
+module.exports = clienteController;
