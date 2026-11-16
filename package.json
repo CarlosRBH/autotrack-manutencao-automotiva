@@ -1,0 +1,26 @@
+{
+  "name": "autotrack-manutencao-automotiva",
+  "version": "1.0.0",
+  "description": "AutoTrack - Sistema de Gestão de Manutenção Automotiva com persistência estritamente em MySQL",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "node --watch src/server.js"
+  },
+  "keywords": [
+    "autotrack",
+    "mysql",
+    "express",
+    "node",
+    "manutencao-automotiva",
+    "crud"
+  ],
+  "author": "Matheus da Silva Gomes, Guilherme Coco da Costa, Carlos Henrique Beltramo Rodrigues",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "mysql2": "^3.12.0"
+  }
+}
