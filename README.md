@@ -6,8 +6,7 @@
 * **Matheus da Silva Gomes** — RA: **273137** (Autor Principal & Git)
 * **Guilherme Coco da Costa** — RA: **272449**
 * **Carlos Henrique Beltramo Rodrigues** — RA: **272766**
-
-**Data de Apresentação:** 18 de Novembro de 2026  
+ 
 **Repositório Oficial:** [https://github.com/MatheusDev486/autotrack-manutencao-automotiva.git](https://github.com/MatheusDev486/autotrack-manutencao-automotiva.git)
 
 ---
