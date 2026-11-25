@@ -1,22 +1,15 @@
--- =============================================================================
--- PROJETO: AutoTrack - Sistema de Gestão de Manutenção Automotiva
--- ARQUIVO: database/seed.sql
--- SGBD: MySQL 8.x / MariaDB
--- OBJETIVO: Carga inicial de dados realistas para testes e validação
--- =============================================================================
-
 USE autotrack_db;
 
--- Limpeza prévia para evitar duplicidade em recargas
+
 SET FOREIGN_KEY_CHECKS = 0;
 TRUNCATE TABLE manutencoes;
 TRUNCATE TABLE veiculos;
 TRUNCATE TABLE clientes;
 SET FOREIGN_KEY_CHECKS = 1;
 
--- =============================================================================
+
 -- 1. INSERÇÃO DE CLIENTES
--- =============================================================================
+
 INSERT INTO clientes (id, nome, cpf, telefone, email, endereco) VALUES
 (1, 'Rodrigo Fernandes Silveira', '111.222.333-44', '(14) 99811-2020', 'rodrigo.silveira@email.com', 'Rua das Flores, 120 - Centro, Ourinhos/SP'),
 (2, 'Camila Beatriz de Souza', '222.333.444-55', '(14) 99722-3030', 'camila.souza@email.com', 'Av. Duque de Caxias, 450 - Jd. Paulista, Ourinhos/SP'),
@@ -24,9 +17,9 @@ INSERT INTO clientes (id, nome, cpf, telefone, email, endereco) VALUES
 (4, 'Juliana Mendes Moreira', '444.555.666-77', '(14) 99144-5050', 'juliana.moreira@email.com', 'Av. Altino Arantes, 310 - Centro, Ourinhos/SP'),
 (5, 'Lucas Gabriel Ribeiro', '555.666.777-88', '(14) 98155-6060', 'lucas.ribeiro@email.com', 'Rua Antônio Prado, 55 - Vila Perino, Ourinhos/SP');
 
--- =============================================================================
+
 -- 2. INSERÇÃO DE VEÍCULOS
--- =============================================================================
+
 INSERT INTO veiculos (id, cliente_id, placa, marca, modelo, ano, cor, quilometragem) VALUES
 (1, 1, 'BRA2E19', 'Toyota', 'Corolla XEi 2.0', 2021, 'Prata Metálico', 48500),
 (2, 1, 'FXT9A82', 'Fiat', 'Strada Freedom 1.3', 2023, 'Branco Banchisa', 24200),
@@ -36,9 +29,9 @@ INSERT INTO veiculos (id, cliente_id, placa, marca, modelo, ano, cor, quilometra
 (6, 4, 'MER8H90', 'Jeep', 'Compass Longitude 2.0 Diesel', 2021, 'Azul Jazz', 54000),
 (7, 5, 'DJK3C12', 'Ford', 'Ka SE Plus 1.0', 2018, 'Branco Ártico', 97500);
 
--- =============================================================================
+
 -- 3. INSERÇÃO DE MANUTENÇÕES
--- =============================================================================
+
 INSERT INTO manutencoes (id, veiculo_id, tipo, descricao, data_manutencao, quilometragem_registro, valor, status, observacoes) VALUES
 -- Veículo 1 (Corolla)
 (1, 1, 'PREVENTIVA', 'Revisão periódica de 40.000 km: troca de óleo 0W-20, filtro de óleo, filtro de ar e filtro de combustível', '2026-03-10', 40200, 580.00, 'CONCLUIDA', 'Óleo genuíno Toyota utilizado. Pastilhas com 60% de vida útil restante.'),

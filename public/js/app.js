@@ -1,19 +1,14 @@
-/**
- * AutoTrack — Lógica Completa da Interface do Usuário (Frontend)
- */
-
 const App = {
-  // Estado local da aplicação
+
   state: {
     abaAtual: 'dashboard',
     clientes: [],
     veiculos: [],
     manutencoes: [],
     labQueryAtual: 'join',
-    itemParaExcluir: null // { tipo: 'cliente'|'veiculo'|'manutencao', id: number, nome: string }
+    itemParaExcluir: null 
   },
 
-  // Inicialização ao carregar a página
   async init() {
     console.log('[AutoTrack] Inicializando interface gráfica...');
     this.configurarMascaras();
@@ -21,7 +16,7 @@ const App = {
     await this.carregarDadosIniciais();
   },
 
-  // Verificação de status da conexão com MySQL
+
   async verificarConexao() {
     const dot = document.getElementById('db-status-dot');
     const text = document.getElementById('db-status-text');
@@ -44,7 +39,7 @@ const App = {
     }
   },
 
-  // Navegação entre as abas do sistema
+
   navegar(aba) {
     this.state.abaAtual = aba;
     const abas = ['dashboard', 'clientes', 'veiculos', 'manutencoes', 'sql'];
@@ -64,7 +59,7 @@ const App = {
       }
     });
 
-    // Se navegou para alguma aba específica, recarrega seus dados
+    
     if (aba === 'dashboard') {
       this.carregarDashboard();
     } else if (aba === 'clientes') {
@@ -78,17 +73,15 @@ const App = {
     }
   },
 
-  // Carregamento de dados iniciais
+
   async carregarDadosIniciais() {
     await this.carregarDashboard();
-    // Pré-carrega listas para uso nos selects de modais
+   
     this.carregarClientes(false);
     this.carregarVeiculos(false);
   },
 
-  // ===========================================================================
-  // DASHBOARD E RELATÓRIOS (CONSULTAS OBRIGATÓRIAS)
-  // ===========================================================================
+  
   async carregarDashboard() {
     try {
       // 1. KPIs
@@ -214,9 +207,8 @@ const App = {
     }
   },
 
-  // ===========================================================================
-  // CLIENTES (CRUD COMPLETO)
-  // ===========================================================================
+  
+
   async carregarClientes(renderizarTabela = true) {
     try {
       const res = await API.clientes.listar();
@@ -335,9 +327,7 @@ const App = {
       `).join('');
   },
 
-  // ===========================================================================
-  // VEÍCULOS (CRUD COMPLETO)
-  // ===========================================================================
+ 
   async carregarVeiculos(renderizarTabela = true) {
     try {
       const res = await API.veiculos.listar();
@@ -469,9 +459,7 @@ const App = {
       `).join('');
   },
 
-  // ===========================================================================
-  // MANUTENÇÕES / OS (CRUD COMPLETO)
-  // ===========================================================================
+
   async carregarManutencoes() {
     try {
       const res = await API.manutencoes.listar();
@@ -609,9 +597,7 @@ const App = {
     }
   },
 
-  // ===========================================================================
-  // EXCLUSÃO COM TRATAMENTO DE ERRO 1451 (ER_ROW_IS_REFERENCED_2)
-  // ===========================================================================
+ 
   solicitarExclusao(tipo, id, nome) {
     this.state.itemParaExcluir = { tipo, id, nome };
     const modal = document.getElementById('modal-confirmar');
@@ -657,14 +643,12 @@ const App = {
       await this.carregarDashboard();
     } catch (error) {
       this.fecharModalConfirmar();
-      // O backend já formata erro 1451 com mensagem amigável
+   
       Toast.error(error.message);
     }
   },
 
-  // ===========================================================================
-  // LABORATÓRIO SQL INTERATIVO (APRESENTAÇÃO ACADÊMICA)
-  // ===========================================================================
+
   sqlQueriesText: {
     join: `-- CONSULTA OBRIGATÓRIA 1: JUNÇÃO RELACIONAL (INNER JOIN)
 -- Combina 3 tabelas relacionadas com navegação por chave estrangeira
@@ -813,7 +797,7 @@ ORDER BY gasto_acumulado DESC;`
     this.executarLaboratorioSQL(this.state.labQueryAtual || 'join');
   },
 
-  // Máscaras de entrada (CPF, Telefone, Placa)
+
   configurarMascaras() {
     const cpfInput = document.getElementById('cliente-cpf');
     if (cpfInput) {
@@ -852,7 +836,6 @@ ORDER BY gasto_acumulado DESC;`
   }
 };
 
-// Inicia a aplicação no carregamento do DOM
 document.addEventListener('DOMContentLoaded', () => {
   App.init();
 });

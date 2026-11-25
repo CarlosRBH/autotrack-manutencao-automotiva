@@ -1,11 +1,7 @@
-/**
- * AutoTrack - Camada de Integração com a API REST
- */
-
 const API = {
   baseUrl: '/api',
 
-  // Utilitário para requisições com tratamento padronizado
+
   async request(endpoint, options = {}) {
     const defaultHeaders = {
       'Content-Type': 'application/json',
@@ -35,7 +31,7 @@ const API = {
     }
   },
 
-  // Health check
+
   async health() {
     return this.request('/health');
   },
@@ -67,7 +63,7 @@ const API = {
     excluir: (id) => API.request(`/manutencoes/${id}`, { method: 'DELETE' })
   },
 
-  // RELATÓRIOS & QUERIES SQL
+  // RELATÓRIOS E QUERIES 
   relatorios: {
     kpis: () => API.request('/relatorios/kpis'),
     join: () => API.request('/relatorios/join'),
@@ -78,9 +74,8 @@ const API = {
   }
 };
 
-/**
- * Utilitário de Notificações Toast
- */
+
+
 const Toast = {
   show(message, type = 'info', duration = 4000) {
     const container = document.getElementById('toast-container');
@@ -128,9 +123,8 @@ const Toast = {
   info(msg) { this.show(msg, 'info'); }
 };
 
-/**
- * Formatadores úteis
- */
+
+
 const Formatters = {
   moeda(valor) {
     const num = parseFloat(valor);
@@ -140,7 +134,7 @@ const Formatters = {
 
   data(dataStr) {
     if (!dataStr) return '-';
-    // Se vier no formato AAAA-MM-DD
+  
     const parts = dataStr.split('T')[0].split('-');
     if (parts.length === 3) {
       return `${parts[2]}/${parts[1]}/${parts[0]}`;
