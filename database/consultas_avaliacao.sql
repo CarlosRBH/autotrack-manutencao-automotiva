@@ -1,7 +1,7 @@
 USE autotrack_db;
 
 
--- CONSULTA OBRIGATÓRIA 
+
 
 SELECT 
     m.id AS manutencao_id,
@@ -24,7 +24,7 @@ INNER JOIN veiculos v ON m.veiculo_id = v.id
 INNER JOIN clientes c ON v.cliente_id = c.id
 ORDER BY m.data_manutencao DESC;
 
--- CONSULTA OBRIGATÓRIA 
+
 
 SELECT 
     v.id AS veiculo_id,
@@ -50,7 +50,7 @@ ORDER BY total_gasto DESC;
 
 
 
--- CONSULTA OBRIGATÓRIA 
+
 
 SELECT 
     v.id AS veiculo_id,
@@ -80,7 +80,7 @@ ORDER BY gasto_acumulado DESC;
 
 
 
--- CONSULTA ADICIONAL 
+
 
 
 SELECT 
@@ -96,7 +96,6 @@ ORDER BY custo_total DESC;
 
 
 
--- CONSULTA ADICIONAL 
 
 
     m.status AS status_ordem,

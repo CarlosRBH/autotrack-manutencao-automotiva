@@ -1,10 +1,8 @@
 const { pool, handleMySQLError } = require('../config/database');
 
-/**
- * Controller de Manutenções Automotivas (CRUD Completo em MySQL)
- */
+
 const manutencaoController = {
-  // READ: Listar todas as manutenções com dados do veículo e cliente (JOIN triplo)
+
   async listar(req, res) {
     try {
       const sql = `
@@ -39,7 +37,7 @@ const manutencaoController = {
     }
   },
 
-  // READ: Buscar manutenção específica por ID
+
   async buscarPorId(req, res) {
     try {
       const { id } = req.params;
@@ -77,7 +75,7 @@ const manutencaoController = {
     }
   },
 
-  // CREATE: Cadastrar nova manutenção
+
   async criar(req, res) {
     try {
       const {
@@ -98,7 +96,7 @@ const manutencaoController = {
         });
       }
 
-      // Validação de enums
+
       const tiposValidos = ['PREVENTIVA', 'CORRETIVA'];
       if (!tiposValidos.includes(tipo)) {
         return res.status(400).json({
@@ -110,7 +108,7 @@ const manutencaoController = {
       const statusValidos = ['AGENDADA', 'EM_ANDAMENTO', 'CONCLUIDA', 'CANCELADA'];
       const statusFinal = status && statusValidos.includes(status) ? status : 'AGENDADA';
 
-      // Verifica se o veículo existe
+
       const [veiculoRows] = await pool.query('SELECT id, quilometragem FROM veiculos WHERE id = ?', [veiculo_id]);
       if (veiculoRows.length === 0) {
         return res.status(400).json({
@@ -147,7 +145,7 @@ const manutencaoController = {
         ]
       );
 
-      // Atualiza a quilometragem do veículo se a informada for maior
+    
       if (km > veiculoRows[0].quilometragem) {
         await pool.query('UPDATE veiculos SET quilometragem = ? WHERE id = ?', [km, veiculo_id]);
       }
@@ -171,7 +169,7 @@ const manutencaoController = {
     }
   },
 
-  // UPDATE: Atualizar dados de uma manutenção
+ 
   async atualizar(req, res) {
     try {
       const { id } = req.params;
@@ -243,7 +241,7 @@ const manutencaoController = {
     }
   },
 
-  // DELETE: Excluir registro de manutenção
+
   async excluir(req, res) {
     try {
       const { id } = req.params;

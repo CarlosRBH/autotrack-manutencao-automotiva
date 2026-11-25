@@ -1,14 +1,8 @@
 const { pool, handleMySQLError } = require('../config/database');
 
-/**
- * Controller de Relatórios e Consultas Avançadas (SQL Explícito / Raw SQL)
- * Implementa rigorosamente as consultas exigidas para a avaliação da disciplina.
- */
+
 const relatorioController = {
-  /**
-   * CONSULTA OBRIGATÓRIA 1: JUNÇÃO RELACIONAL (INNER JOIN)
-   * Lista histórico completo com dados combinados de manutenções, veículos e clientes.
-   */
+
   async consultaJoin(req, res) {
     try {
       const sql = `
@@ -46,10 +40,7 @@ const relatorioController = {
     }
   },
 
-  /**
-   * CONSULTA OBRIGATÓRIA 2: AGREGAÇÃO COM GROUP BY (COMPATÍVEL MYSQL 8 ONLY_FULL_GROUP_BY)
-   * Total de manutenções, valor acumulado investido e ticket médio por veículo.
-   */
+
   async consultaAgregacao(req, res) {
     try {
       const sql = `
@@ -88,10 +79,7 @@ const relatorioController = {
     }
   },
 
-  /**
-   * CONSULTA OBRIGATÓRIA 3: SUBCONSULTA (SUBQUERY COM HAVING)
-   * Veículos com gasto total superior à média geral de gastos entre todos os veículos.
-   */
+
   async consultaSubquery(req, res) {
     try {
       const sql = `
@@ -123,7 +111,7 @@ const relatorioController = {
       `;
       const [rows] = await pool.query(sql);
 
-      // Também busca a média geral para enriquecer a exibição visual
+
       const [mediaGeralRows] = await pool.query(`
         SELECT AVG(sub.gasto_veiculo) AS media_geral
         FROM (
@@ -148,9 +136,7 @@ const relatorioController = {
     }
   },
 
-  /**
-   * CONSULTA ADICIONAL: Resumo Financeiro por Tipo de Manutenção (Preventiva vs Corretiva)
-   */
+
   async resumoTipos(req, res) {
     try {
       const sql = `
@@ -172,9 +158,7 @@ const relatorioController = {
     }
   },
 
-  /**
-   * CONSULTA ADICIONAL: Resumo Operacional por Status da Ordem de Serviço
-   */
+
   async resumoStatus(req, res) {
     try {
       const sql = `
@@ -193,9 +177,7 @@ const relatorioController = {
     }
   },
 
-  /**
-   * KPIs Consolidados para os cards do topo do Dashboard
-   */
+
   async metricasGerais(req, res) {
     try {
       const [clientesCount] = await pool.query('SELECT COUNT(*) AS total FROM clientes');

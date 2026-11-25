@@ -1,10 +1,8 @@
 const { pool, handleMySQLError } = require('../config/database');
 
-/**
- * Controller de Veículos (CRUD Completo em MySQL)
- */
+
 const veiculoController = {
-  // READ: Listar todos os veículos com dados do proprietário (JOIN)
+ 
   async listar(req, res) {
     try {
       const sql = `
@@ -33,7 +31,6 @@ const veiculoController = {
     }
   },
 
-  // READ: Buscar veículo por ID
   async buscarPorId(req, res) {
     try {
       const { id } = req.params;
@@ -67,7 +64,6 @@ const veiculoController = {
     }
   },
 
-  // CREATE: Cadastrar novo veículo vinculado a um cliente
   async criar(req, res) {
     try {
       const { cliente_id, placa, marca, modelo, ano, cor, quilometragem } = req.body;
@@ -79,7 +75,7 @@ const veiculoController = {
         });
       }
 
-      // Verifica se o cliente existe
+
       const [clienteRows] = await pool.query('SELECT id FROM clientes WHERE id = ?', [cliente_id]);
       if (clienteRows.length === 0) {
         return res.status(400).json({
@@ -116,7 +112,7 @@ const veiculoController = {
     }
   },
 
-  // UPDATE: Atualizar dados de um veículo
+
   async atualizar(req, res) {
     try {
       const { id } = req.params;
@@ -152,7 +148,7 @@ const veiculoController = {
     }
   },
 
-  // DELETE: Excluir veículo (restringido se houver manutenções vinculadas)
+
   async excluir(req, res) {
     try {
       const { id } = req.params;
